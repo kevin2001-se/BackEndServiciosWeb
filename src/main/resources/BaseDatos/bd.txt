@@ -1,0 +1,58 @@
+CREATE DATABASE BD;
+use BD;
+
+CREATE TABLE tipoUsuario (
+    codigoTipoUsu int auto_increment,
+    tipo varchar(250) not null,
+    Constraint PK_TipoUsuario PRIMARY KEY(codigoTipoUsu)
+);
+
+CREATE TABLE usuario (
+    codigoUsu int auto_increment,
+    nombre varchar(250) not null,
+    correo varchar(250) not null,
+    contraseña varchar(200) not null,
+    foto text null,
+    codigoTipoUsu int,
+    Constraint PK_Usuario PRIMARY KEY(codigoUsu),
+   CONSTRAINT fk_tipo_Usuario FOREIGN KEY (codigoTipoUsu) REFERENCES tipoUsuario (codigoTipoUsu) ON DELETE NO ACTION ON UPDATE NO ACTION	
+);
+
+
+
+CREATE TABLE plan (
+    codigoPlan int auto_increment,
+    tipoPlan varchar(250) not null,
+    fechaPlan datetime not null,
+    codigoTipoUsu int,
+     Constraint PK_Plan PRIMARY KEY(codigoPlan),
+    CONSTRAINT fk_tipo_Usuario1 FOREIGN KEY (codigoTipoUsu) REFERENCES tipoUsuario (codigoTipoUsu) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE Tarea (
+	codigoTarea int auto_increment,
+	nombre varchar(250) not null,
+    codigoTipoUsu int,
+	descripcion text not null,
+	fechaTarea datetime not null,
+	CONSTRAINT fk_tipo_Usuario2 FOREIGN KEY (codigoTipoUsu) REFERENCES tipoUsuario (codigoTipoUsu) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    Constraint PK_Tarea PRIMARY KEY(codigoTarea)
+);
+CREATE TABLE Tipo (
+		codigoTipo int auto_increment,
+		nombre varchar(250) not null,
+		icono text not null,
+    Constraint PK_Tipo PRIMARY KEY(codigoTipo)
+);
+CREATE TABLE Archivo (
+	codigoArchivo int auto_increment,
+	nombre varchar(250) not null,
+    codigoTipo int,
+    codigoTipoUsu int,
+	tamaño varchar(250) not null,
+	ruta text not null,
+	estado char(1) not null,
+	CONSTRAINT fk_tipo FOREIGN KEY (codigoTipo) REFERENCES Tipo (codigoTipo) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_tipo_Usuario3 FOREIGN KEY (codigoTipoUsu) REFERENCES tipoUsuario (codigoTipoUsu) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    Constraint PK_Archivo PRIMARY KEY(codigoArchivo)
+);
